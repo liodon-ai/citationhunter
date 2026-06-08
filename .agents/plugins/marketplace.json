@@ -1,0 +1,20 @@
+{
+  "name": "citationhunter-skill",
+  "interface": {
+    "displayName": "CitationHunter"
+  },
+  "plugins": [
+    {
+      "name": "citationhunter",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "NONE"
+      },
+      "category": "Research"
+    }
+  ]
+}

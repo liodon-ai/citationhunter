@@ -1,0 +1,13 @@
+{
+  "name": "citationhunter",
+  "version": "1.0.0",
+  "description": "Research paper citation auditor. Audits any claim or paper against current literature - identifies missing citations, weak references, and contradictory evidence with a structured coverage score.",
+  "author": {
+    "name": "liodon-ai",
+    "url": "https://github.com/liodon-ai"
+  },
+  "homepage": "https://github.com/liodon-ai/citationhunter-skill",
+  "repository": "https://github.com/liodon-ai/citationhunter-skill",
+  "license": "MIT",
+  "keywords": ["research", "citations", "academic", "literature-review", "peer-review", "papers", "scientific-writing", "auditing", "ai-research"]
+}

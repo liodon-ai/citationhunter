@@ -1,0 +1,24 @@
+{
+  "name": "citationhunter-skill",
+  "owner": {
+    "name": "liodon-ai",
+    "url": "https://github.com/liodon-ai"
+  },
+  "metadata": {
+    "description": "Marketplace hosting the CitationHunter citation audit skill."
+  },
+  "plugins": [
+    {
+      "name": "citationhunter",
+      "description": "Research paper citation auditor. Audits any claim or paper against current literature - identifies missing citations, weak references, and contradictory evidence with a structured coverage score.",
+      "version": "1.0.0",
+      "author": {
+        "name": "liodon-ai",
+        "url": "https://github.com/liodon-ai"
+      },
+      "source": "./",
+      "category": "research",
+      "homepage": "https://github.com/liodon-ai/citationhunter-skill"
+    }
+  ]
+}

@@ -53,7 +53,7 @@ Replace `{VERSION}` with the version from frontmatter and `{YYYY-MM-DD}` with to
 {CLAIM_OR_PAPER_TITLE}
 
 **Citation Coverage Score:** {N}/10
-**Sources searched:** Semantic Scholar, arXiv, CrossRef, Google Scholar
+**Sources searched:** Semantic Scholar, arXiv, CrossRef, OpenAlex
 **Papers reviewed:** {N}
 **Average citation freshness:** {N} years
 
@@ -77,7 +77,7 @@ Papers that challenge or qualify the claim. For each: the contradicting finding,
 
 ---
 
-**Methodology:** Claims extracted and matched against Semantic Scholar / arXiv / CrossRef corpora. Citation freshness computed as years since publication. Contradictions identified via citation graph analysis and direct literature search.
+**Methodology:** Claims extracted and matched against Semantic Scholar / arXiv / CrossRef / OpenAlex corpora. Citation freshness computed as years since publication. Contradictions identified via citation graph analysis and direct literature search.
 ```
 
 ---
@@ -104,7 +104,7 @@ If input is ambiguous, ask ONE clarifying question.
 
 ### For arXiv links:
 - Use WebFetch to get the abstract and metadata from `https://arxiv.org/abs/{ID}`.
-- Use WebFetch or the arXiv API at `http://export.arxiv.org/api/query?id_list={ID}` for full metadata.
+- Use WebFetch or the arXiv API at `https://export.arxiv.org/api/query?id_list={ID}` for full metadata.
 
 ### For paper titles:
 - Search Semantic Scholar: `https://api.semanticscholar.org/graph/v1/paper/search?query={TITLE}&limit=5`
@@ -145,7 +145,7 @@ Search terms should combine key concepts from the claim:
 ### Secondary: arXiv API
 
 ```bash
-curl -s "http://export.arxiv.org/api/query?search_query=all:{QUERY}&max_results=15&sortBy=relevance&sortOrder=descending" | python3 -c "
+curl -s "https://export.arxiv.org/api/query?search_query=all:{QUERY}&max_results=15&sortBy=relevance&sortOrder=descending" | python3 -c "
 import sys, xml.etree.ElementTree as ET
 data = sys.stdin.read()
 root = ET.fromstring(data)
@@ -173,7 +173,25 @@ for item in data.get('message', {}).get('items', []):
 " 2>/dev/null || echo "API unavailable"
 ```
 
-### Quaternary: WebSearch for recent surveys/blog posts
+### Quaternary: OpenAlex API
+
+OpenAlex is a fully open, no-key-required index of 250M+ scholarly works. Use it when Semantic Scholar is rate-limited or for broader coverage.
+
+```bash
+curl -s "https://api.openalex.org/works?search={QUERY}&per-page=10&select=title,publication_year,cited_by_count,doi,primary_location" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+for item in data.get('results', []):
+    title = item.get('title', '?')
+    year = item.get('publication_year', '?')
+    cited = item.get('cited_by_count', 0)
+    doi = item.get('doi') or ''
+    url = doi if doi else ''
+    print(f'{year} | {title[:80]} | {url} | cited:{cited}')
+" 2>/dev/null || echo "API unavailable"
+```
+
+### Quinary: WebSearch for recent surveys/blog posts
 
 ```
 WebSearch("{CLAIM} survey 2025 2026")
@@ -266,7 +284,7 @@ To get recommendations for addressing the gaps above, ask "how to fix?"
 
 1. **Prefer peer-reviewed papers** over preprints and blog posts. Note explicitly when only a preprint is available.
 2. **Citation count is a signal, not a verdict.** A 2025 paper with 5 citations in Computer Vision is less established than a 2015 paper with 5000. Contextualize.
-3. **Semantic Scholar is the primary source.** arXiv is secondary. CrossRef is tertiary. WebSearch is supplementary (surveys, blog posts, news).
+3. **Source priority:** Semantic Scholar (primary) → arXiv (secondary) → CrossRef (tertiary) → OpenAlex (fallback when Semantic Scholar is rate-limited) → WebSearch (supplementary: surveys, blog posts, news).
 4. **When APIs fail** (rate limits, network errors), fall back gracefully with WebSearch and note the limitation.
 5. **Conference venue matters.** Note if a paper is at a top venue (NeurIPS, ICML, ICLR, CVPR, ACL, etc.) vs a workshop or low-selectivity venue.
 
@@ -274,7 +292,7 @@ To get recommendations for addressing the gaps above, ask "how to fix?"
 
 # SECURITY & PERMISSIONS
 
-- Reads data from public APIs (Semantic Scholar, arXiv, CrossRef) - no authentication needed.
+- Reads data from public APIs (Semantic Scholar, arXiv, CrossRef, OpenAlex) - no authentication needed.
 - May fetch paper metadata from arxiv.org and semanticscholar.org.
 - Does NOT require API keys. All sources are public.
 - Does NOT modify any files on the user's system unless explicitly directed.
@@ -284,7 +302,7 @@ To get recommendations for addressing the gaps above, ask "how to fix?"
 
 # LIMITATIONS
 
-1. **API rate limits:** Semantic Scholar allows ~100 requests/second. For large papers with 30+ claims, the audit may take 2-5 minutes.
+1. **API rate limits:** Semantic Scholar's unauthenticated endpoint allows ~1 request/second and will return 429 with no Retry-After header when the IP is throttled. When this happens the skill falls back to OpenAlex (250M+ papers, no key, no rate limit in practice) and then WebSearch. For large papers with 30+ claims, the audit may take 2-5 minutes.
 2. **Paywalled papers:** Only metadata/abstracts are searchable. Full-text analysis requires user-provided PDF.
 3. **Field variance:** Citation norms differ by field. A 5-year-old paper in ML is stale; in mathematics, it may still be current. The tool contextualizes but does not auto-detect field.
 4. **Non-English literature:** Coverage is primarily English-language venues.
