@@ -1,5 +1,5 @@
 [project]
-name = "citationhunter-skill"
+name = "citationhunter"
 version = "1.0.0"
 description = "Research paper citation auditor skill"
 readme = "README.md"

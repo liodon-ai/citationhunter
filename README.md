@@ -17,20 +17,20 @@ Think of it as "Grammarly for citations" - focused on scientific validity and co
 ### Agent Skills (Claude Code, Codex, Cursor, Copilot, Gemini CLI, and 50+ hosts)
 
 ```bash
-npx skills add liodon-ai/citationhunter-skill -g
+npx skills add liodon-ai/citationhunter -g
 ```
 
 ### Claude Code (marketplace)
 
 ```
-/plugin marketplace add liodon-ai/citationhunter-skill
+/plugin marketplace add liodon-ai/citationhunter
 ```
 
 ### Manual
 
 ```bash
-git clone https://github.com/liodon-ai/citationhunter-skill.git
-ln -s "$(pwd)/citationhunter-skill/skills/citationhunter" ~/.claude/skills/citationhunter
+git clone https://github.com/liodon-ai/citationhunter.git
+ln -s "$(pwd)/citationhunter/skills/citationhunter" ~/.claude/skills/citationhunter
 ```
 
 ## What It Does
@@ -55,6 +55,7 @@ ln -s "$(pwd)/citationhunter-skill/skills/citationhunter" ~/.claude/skills/citat
 - Semantic Scholar (primary)
 - arXiv
 - CrossRef
+- OpenAlex (fallback)
 - Web search (supplementary)
 
 No API keys required. All sources are public.

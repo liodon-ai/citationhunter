@@ -1,5 +1,5 @@
 {
-  "name": "citationhunter-skill",
+  "name": "citationhunter",
   "version": "1.0.0",
   "description": "Audit research papers and claims for citation quality. Identifies missing citations, weak references, and contradictory evidence. No API keys required.",
   "settings": []

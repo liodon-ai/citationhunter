@@ -6,8 +6,8 @@
     "name": "liodon-ai",
     "url": "https://github.com/liodon-ai"
   },
-  "homepage": "https://github.com/liodon-ai/citationhunter-skill",
-  "repository": "https://github.com/liodon-ai/citationhunter-skill",
+  "homepage": "https://github.com/liodon-ai/citationhunter",
+  "repository": "https://github.com/liodon-ai/citationhunter",
   "license": "MIT",
   "keywords": ["research", "citations", "academic", "literature-review", "peer-review", "papers", "scientific-writing", "auditing", "ai-research"]
 }

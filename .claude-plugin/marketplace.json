@@ -1,5 +1,5 @@
 {
-  "name": "citationhunter-skill",
+  "name": "citationhunter",
   "owner": {
     "name": "liodon-ai",
     "url": "https://github.com/liodon-ai"
@@ -18,7 +18,7 @@
       },
       "source": "./",
       "category": "research",
-      "homepage": "https://github.com/liodon-ai/citationhunter-skill"
+      "homepage": "https://github.com/liodon-ai/citationhunter"
     }
   ]
 }

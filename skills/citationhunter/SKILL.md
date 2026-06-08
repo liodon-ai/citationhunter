@@ -4,8 +4,8 @@ version: "1.0.0"
 description: "Research paper citation auditor that audits a claim or paper against current literature, identifying missing citations, weak references, contradictory evidence, and producing a structured citation coverage score."
 argument-hint: "citationhunter transformers attention is all you need | citationhunter https://arxiv.org/abs/1706.03762 | citationhunter 'Transformer models dominate most NLP tasks'"
 allowed-tools: Bash, Read, Write, WebSearch, WebFetch, AskUserQuestion
-homepage: https://github.com/liodon-ai/citationhunter-skill
-repository: https://github.com/liodon-ai/citationhunter-skill
+homepage: https://github.com/liodon-ai/citationhunter
+repository: https://github.com/liodon-ai/citationhunter
 author: liodon-ai
 license: MIT
 user-invocable: true
